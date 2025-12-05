@@ -1,0 +1,6 @@
+openai-whisper==20250625
+tqdm>=4.66.1
+numpy>=1.24.0
+torch>=2.4.0
+# torchaudio optional for local VAD or loading, not strictly required by whisper
+torchaudio>=2.4.0

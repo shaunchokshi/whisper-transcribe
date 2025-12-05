@@ -1,0 +1,25 @@
+services:
+  whisper:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        BASE_IMAGE: rocm/pytorch:rocm7.1.1_ubuntu24.04_py3.12_pytorch_release_2.9.1
+    image: rocm-whisper:latest
+    # Mount your host folder with videos and outputs here:
+    volumes:
+      - ./data:/data
+      - /home/shaun/Videos:/Videos
+    # ROCm requires access to /dev/kfd and /dev/dri
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    group_add:
+      - "video"
+    #environment:
+     # - HIP_VISIBLE_DEVICES=0
+     # - HSA_OVERRIDE_GFX_VERSION=10.3.0
+    shm_size: 32G
+    # Uncomment if your distro needs extra privileges for ROCm in containers
+    # privileged: true
+    #command: ["python", "/app/transcribe.py", "--help"]

@@ -1,0 +1,21 @@
+services:
+  whisper:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        BASE_IMAGE: pytorch/pytorch:2.4.0-rocm6.0
+    image: rocm-whisper:latest
+    volumes:
+      - ./data:/data
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    group_add:
+      - "video"
+    environment:
+      - HIP_VISIBLE_DEVICES=0
+      - HSA_OVERRIDE_GFX_VERSION=10.3.0
+    ipc: host
+    # privileged: true
+    command: ["python", "/app/transcribe.py", "--help"]

@@ -1,0 +1,21 @@
+## if the image is not built, then first run:
+# docker compose build whisper
+
+
+
+docker run --rm -it \
+  --device=/dev/kfd --device=/dev/dri \
+  --group-add video \
+#  -e HIP_VISIBLE_DEVICES=0 \
+#  -e HSA_OVERRIDE_GFX_VERSION=10.3.0 \
+  -v "$PWD/data":/data \
+  -v "$HOME":/home/user \
+  rocm-whisper:latest \
+  python /app/transcribe.py \
+    --gpu \
+    --model medium \
+    --input /home/user/Videos/recordings \
+    --glob *.mkv \
+    --out_dir /data/out \
+    --verbose_json \
+    --md_date 2025-12-02
